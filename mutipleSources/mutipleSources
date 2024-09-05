@@ -1,0 +1,23 @@
+#!/bin/bash
+
+PROJECT_NAME=mutipleSources
+PROJECT_ROOT_DIR=/home/johnrego/projetos-esp/mutipleSources
+
+if [ $1 == "build" ];
+then
+  echo "Compilando projeto $PROJECT_NAME"
+  #Build your project
+  docker run -it --rm -v $PROJECT_ROOT_DIR:/project -w /project mbenabda/esp8266-rtos-sdk make
+fi
+if [ $1 == "flash" ];
+then
+  echo "Gravando projeto $PROJECT_NAME"
+  #Flash your ESP chip
+  docker run -it --rm -v $PROJECT_ROOT_DIR:/project --privileged -v /dev:/dev -w /project mbenabda/esp8266-rtos-sdk make flash
+fi
+if [ $1 == "monitor" ];
+then
+  echo "Abrindo monitor para projeto $PROJECT_NAME"
+  #Monitor the ESP chip's serial output
+  docker run -it --rm -v $PROJECT_ROOT_DIR:/project --privileged -v /dev:/dev -w /project mbenabda/esp8266-rtos-sdk make monitor
+fi
